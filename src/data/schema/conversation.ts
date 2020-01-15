@@ -147,6 +147,16 @@ export const types = `
     unreadCount: Int
   }
 
+  type VideoChatRoom {
+    id: String
+    name: String
+    api_created: Boolean
+    privacy: String
+    url: String
+    created_at: Date
+    config: JSON
+  }
+
   input ConversationMessageParams {
     content: String,
     mentionedUserIds: [String],
@@ -220,4 +230,6 @@ export const mutations = `
   conversationsUnassign(_ids: [String]!): [Conversation]
   conversationsChangeStatus(_ids: [String]!, status: String!): [Conversation]
   conversationMarkAsRead(_id: String): Conversation
+  conversationCreateVideoChatRoom: VideoChatRoom
+  conversationDeleteVideoChatRoom: JSON
 `;

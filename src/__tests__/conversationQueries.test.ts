@@ -945,7 +945,7 @@ describe('conversationQueries', () => {
   });
 
   test('Facebook comments', async () => {
-    process.env.INTEGRATION_API_DOMAIN = 'http://fake.erxes.io';
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
 
     const qry = `
       query converstationFacebookComments($postId: String!) {

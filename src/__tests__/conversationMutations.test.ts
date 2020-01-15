@@ -363,4 +363,53 @@ describe('Conversation message mutations', () => {
 
     expect(conversation.readUserIds).toContain(user._id);
   });
+
+  // test('conversationCreateVideoChatRoom', async () => {
+  //   process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
+
+  //   const mutation = `
+  //     mutation conversationCreateVideoChatRoom {
+  //       conversationCreateVideoChatRoom {
+  //         id
+  //         name
+  //         api_created
+  //         privacy
+  //         url
+  //         created_at
+  //         config
+  //       }
+  //     }
+  //   `;
+
+  //   const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
+
+  //   const room = await graphqlRequest(mutation, 'conversationCreateVideoChatRoom', {}, { dataSources });
+
+  //   console.log('room: ', room);
+
+  //   expect(room).toBeDefined();
+  // });
+
+  test('conversationDeleteVideoChatRoom', async () => {
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
+
+    const mutation = `
+      mutation conversationDeleteVideoChatRoom {
+        conversationDeleteVideoChatRoom
+      }
+    `;
+
+    const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
+
+    const deletedRoom = await graphqlRequest(
+      mutation,
+      'conversationDeleteVideoChatRoom',
+      { name: 'wfmH4u3JdQTv8Hn2Axzj' },
+      { dataSources },
+    );
+
+    console.log('room: ', deletedRoom);
+
+    expect(deletedRoom).toBeDefined();
+  });
 });

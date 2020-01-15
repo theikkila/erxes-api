@@ -398,6 +398,14 @@ const conversationMutations = {
   async conversationMarkAsRead(_root, { _id }: { _id: string }, { user }: IContext) {
     return Conversations.markAsReadConversation(_id, user._id);
   },
+
+  async conversationCreateVideoChatRoom(_root, _doc, { dataSources }: IContext) {
+    return dataSources.IntegrationsAPI.createVideoChatRoom();
+  },
+
+  async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
+    return dataSources.IntegrationsAPI.deleteVideoChatRoom(name);
+  },
 };
 
 requireLogin(conversationMutations, 'conversationMarkAsRead');
