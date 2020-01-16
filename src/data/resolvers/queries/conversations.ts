@@ -296,6 +296,24 @@ const conversationQueries = {
       ],
     }).countDocuments();
   },
+
+  async conversationsGetVideoRoom(_root, { _id }, { dataSources }: IContext) {
+    const conversation = await Conversations.getConversation(_id);
+
+    if (!conversation.activeVideoRoom) {
+      return '';
+    }
+
+    try {
+      const response = await dataSources.IntegrationsAPI.fetchApi(`/daily/rooms/${conversation.activeVideoRoom}`);
+
+      return response.name;
+    } catch (e) {
+      await Conversations.updateOne({ _id }, { $unset: { activeVideoRoom: 1 } });
+
+      return '';
+    }
+  },
 };
 
 moduleRequireLogin(conversationQueries);

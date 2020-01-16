@@ -216,6 +216,7 @@ export const queries = `
   conversationDetail(_id: String!): Conversation
   conversationsGetLast(${filterParams}): Conversation
   conversationsTotalUnreadCount: Int
+  conversationsGetVideoRoom(_id: String!): String
 `;
 
 export const mutations = `
@@ -231,6 +232,6 @@ export const mutations = `
   conversationsUnassign(_ids: [String]!): [Conversation]
   conversationsChangeStatus(_ids: [String]!, status: String!): [Conversation]
   conversationMarkAsRead(_id: String): Conversation
-  conversationCreateVideoChatRoom: VideoChatRoom
-  conversationDeleteVideoChatRoom: JSON
+  conversationCreateVideoChatRoom(conversationId: String): VideoChatRoom
+  conversationDeleteVideoChatRoom(name: String): JSON
 `;

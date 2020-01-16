@@ -52,7 +52,7 @@ export default class IntegrationsAPI extends RESTDataSource {
   }
 
   public async deleteVideoChatRoom(name) {
-    return this.delete('/daily/rooms', { name });
+    return this.delete(`/daily/rooms/${name}`);
   }
 
   public async fetchApi(path, params) {

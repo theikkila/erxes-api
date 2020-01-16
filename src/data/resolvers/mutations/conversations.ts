@@ -399,8 +399,15 @@ const conversationMutations = {
     return Conversations.markAsReadConversation(_id, user._id);
   },
 
-  async conversationCreateVideoChatRoom(_root, _doc, { dataSources }: IContext) {
-    return dataSources.IntegrationsAPI.createVideoChatRoom();
+  async conversationCreateVideoChatRoom(_root, { conversationId }, { dataSources }: IContext) {
+    const createdRoom = await dataSources.IntegrationsAPI.createVideoChatRoom();
+
+    console.log('conversationId: ', conversationId);
+    console.log('createdRoom: ', createdRoom);
+
+    await Conversations.updateOne({ _id: conversationId }, { $set: { activeVideoRoom: createdRoom.name } });
+
+    return createdRoom;
   },
 
   async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
