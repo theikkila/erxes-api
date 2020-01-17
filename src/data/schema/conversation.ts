@@ -158,6 +158,11 @@ export const types = `
     config: JSON
   }
 
+  type VideoChatRoomDelete {
+    deleted: Boolean
+    name: String
+  }
+
   input ConversationMessageParams {
     content: String,
     mentionedUserIds: [String],
@@ -233,5 +238,5 @@ export const mutations = `
   conversationsChangeStatus(_ids: [String]!, status: String!): [Conversation]
   conversationMarkAsRead(_id: String): Conversation
   conversationCreateVideoChatRoom(conversationId: String): VideoChatRoom
-  conversationDeleteVideoChatRoom(name: String): JSON
+  conversationDeleteVideoChatRoom(name: String!): VideoChatRoomDelete
 `;

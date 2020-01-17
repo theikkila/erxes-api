@@ -116,300 +116,302 @@ describe('Conversation message mutations', () => {
     spy.mockRestore();
   });
 
-  // test('Add internal conversation message', async () => {
-  //   const args = {
-  //     conversationId: messengerConversation._id,
-  //     content: 'content',
-  //     internal: true,
-  //   };
+  test('Add internal conversation message', async () => {
+    const args = {
+      conversationId: messengerConversation._id,
+      content: 'content',
+      internal: true,
+    };
 
-  //   const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
+    const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
 
-  //   expect(response.conversationId).toBe(args.conversationId);
-  //   expect(response.content).toBe(args.content);
-  //   expect(response.internal).toBeTruthy();
-  // });
+    expect(response.conversationId).toBe(args.conversationId);
+    expect(response.content).toBe(args.content);
+    expect(response.internal).toBeTruthy();
+  });
 
-  // test('Add lead conversation message', async () => {
-  //   process.env.DEFAULT_EMAIL_SERIVCE = ' ';
-  //   process.env.COMPANY_EMAIL_FROM = ' ';
+  test('Add lead conversation message', async () => {
+    process.env.DEFAULT_EMAIL_SERIVCE = ' ';
+    process.env.COMPANY_EMAIL_FROM = ' ';
 
-  //   const args = {
-  //     conversationId: leadConversation._id,
-  //     content: 'content',
-  //     mentionedUserIds: [user._id],
-  //     internal: false,
-  //     attachments: [{ url: 'url', name: 'name', type: 'doc', size: 10 }],
-  //   };
+    const args = {
+      conversationId: leadConversation._id,
+      content: 'content',
+      mentionedUserIds: [user._id],
+      internal: false,
+      attachments: [{ url: 'url', name: 'name', type: 'doc', size: 10 }],
+    };
 
-  //   const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
+    const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
 
-  //   expect(response.content).toBe(args.content);
-  //   expect(response.attachments[0]).toEqual({ url: 'url', name: 'name', type: 'doc', size: 10 });
-  //   expect(toJSON(response.mentionedUserIds)).toEqual(toJSON(args.mentionedUserIds));
-  //   expect(response.internal).toBe(args.internal);
-  // });
+    expect(response.content).toBe(args.content);
+    expect(response.attachments[0]).toEqual({ url: 'url', name: 'name', type: 'doc', size: 10 });
+    expect(toJSON(response.mentionedUserIds)).toEqual(toJSON(args.mentionedUserIds));
+    expect(response.internal).toBe(args.internal);
+  });
 
-  // test('Add messenger conversation message', async () => {
-  //   const args = {
-  //     conversationId: messengerConversation._id,
-  //     content: 'content',
-  //     fromBot: true,
-  //   };
+  test('Add messenger conversation message', async () => {
+    const args = {
+      conversationId: messengerConversation._id,
+      content: 'content',
+      fromBot: true,
+    };
 
-  //   const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
+    const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args);
 
-  //   expect(response.conversationId).toBe(messengerConversation._id);
-  // });
+    expect(response.conversationId).toBe(messengerConversation._id);
+  });
 
-  // test('Add conversation message using third party integration', async () => {
-  //   const mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
-  //     return Promise.resolve('success');
-  //   });
+  test('Add conversation message using third party integration', async () => {
+    const mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
+      return Promise.resolve('success');
+    });
 
-  //   const args = { conversationId: facebookConversation._id, content: 'content' };
+    const args = { conversationId: facebookConversation._id, content: 'content' };
 
-  //   const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources: {} });
+    const response = await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources: {} });
 
-  //   expect(response).toBeDefined();
+    expect(response).toBeDefined();
 
-  //   const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
+    const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
 
-  //   try {
-  //     await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
-  //   } catch (e) {
-  //     expect(e).toBeDefined();
-  //   }
+    try {
+      await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
 
-  //   args.conversationId = facebookMessengerConversation._id;
+    args.conversationId = facebookMessengerConversation._id;
 
-  //   try {
-  //     await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
-  //   } catch (e) {
-  //     expect(e).toBeDefined();
-  //   }
+    try {
+      await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
 
-  //   args.conversationId = chatfuelConversation._id;
+    args.conversationId = chatfuelConversation._id;
 
-  //   try {
-  //     await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
-  //   } catch (e) {
-  //     expect(e).toBeDefined();
-  //   }
+    try {
+      await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
 
-  //   args.conversationId = twitterConversation._id;
+    args.conversationId = twitterConversation._id;
 
-  //   try {
-  //     await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
-  //   } catch (e) {
-  //     expect(e).toBeDefined();
-  //   }
+    try {
+      await graphqlRequest(addMutation, 'conversationMessageAdd', args, { dataSources });
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
 
-  //   mock.restore();
-  // });
+    mock.restore();
+  });
 
-  // test('Reply facebook comment', async () => {
-  //   const commentMutation = `
-  //     mutation conversationsReplyFacebookComment(
-  //       $conversationId: String
-  //       $commentId: String
-  //       $content: String
-  //     ) {
-  //       conversationsReplyFacebookComment(
-  //         conversationId: $conversationId
-  //         commentId: $commentId
-  //         content: $content
-  //       ) {
-  //         conversationId
-  //         commentId
-  //       }
-  //     }
-  //   `;
+  test('Reply facebook comment', async () => {
+    const commentMutation = `
+      mutation conversationsReplyFacebookComment(
+        $conversationId: String
+        $commentId: String
+        $content: String
+      ) {
+        conversationsReplyFacebookComment(
+          conversationId: $conversationId
+          commentId: $commentId
+          content: $content
+        ) {
+          conversationId
+          commentId
+        }
+      }
+    `;
 
-  //   let mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
-  //     return Promise.resolve('success');
-  //   });
-  //   const message = await conversationMessageFactory({ conversationId: facebookConversation._id });
-  //   const comment = await integrationFactory({ kind: 'facebook-post' });
+    let mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
+      return Promise.resolve('success');
+    });
+    const message = await conversationMessageFactory({ conversationId: facebookConversation._id });
+    const comment = await integrationFactory({ kind: 'facebook-post' });
 
-  //   const args = {
-  //     conversationId: facebookConversation._id,
-  //     content: message.content,
-  //     commentId: comment._id,
-  //   };
+    const args = {
+      conversationId: facebookConversation._id,
+      content: message.content,
+      commentId: comment._id,
+    };
 
-  //   const response = await graphqlRequest(commentMutation, 'conversationsReplyFacebookComment', args, {
-  //     dataSources: {},
-  //   });
+    const response = await graphqlRequest(commentMutation, 'conversationsReplyFacebookComment', args, {
+      dataSources: {},
+    });
 
-  //   expect(response).toBeDefined();
+    expect(response).toBeDefined();
 
-  //   mock.restore();
+    mock.restore();
 
-  //   mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
-  //     throw new Error();
-  //   });
+    mock = sinon.stub(messageBroker, 'sendMessage').callsFake(() => {
+      throw new Error();
+    });
 
-  //   try {
-  //     await graphqlRequest(commentMutation, 'conversationsReplyFacebookComment', args, {
-  //       dataSources: {},
-  //     });
-  //   } catch (e) {
-  //     expect(e).toBeDefined();
-  //   }
-  // });
+    try {
+      await graphqlRequest(commentMutation, 'conversationsReplyFacebookComment', args, {
+        dataSources: {},
+      });
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
 
-  // test('Assign conversation', async () => {
-  //   process.env.DEFAULT_EMAIL_SERIVCE = ' ';
-  //   process.env.COMPANY_EMAIL_FROM = ' ';
+  test('Assign conversation', async () => {
+    process.env.DEFAULT_EMAIL_SERIVCE = ' ';
+    process.env.COMPANY_EMAIL_FROM = ' ';
 
-  //   const args = {
-  //     conversationIds: [leadConversation._id],
-  //     assignedUserId: user._id,
-  //   };
-
-  //   const mutation = `
-  //     mutation conversationsAssign(
-  //       $conversationIds: [String]!
-  //       $assignedUserId: String
-  //     ) {
-  //       conversationsAssign(
-  //         conversationIds: $conversationIds
-  //         assignedUserId: $assignedUserId
-  //       ) {
-  //         assignedUser {
-  //           _id
-  //         }
-  //       }
-  //     }
-  //   `;
-
-  //   const [conversation] = await graphqlRequest(mutation, 'conversationsAssign', args);
-
-  //   expect(conversation.assignedUser._id).toEqual(args.assignedUserId);
-  // });
-
-  // test('Unassign conversation', async () => {
-  //   const mutation = `
-  //     mutation conversationsUnassign($_ids: [String]!) {
-  //       conversationsUnassign(_ids: $_ids) {
-  //         assignedUser {
-  //           _id
-  //         }
-  //       }
-  //     }
-  //   `;
-
-  //   const [conversation] = await graphqlRequest(
-  //     mutation,
-  //     'conversationsUnassign',
-  //     {
-  //       _ids: [leadConversation._id],
-  //     },
-  //     { user },
-  //   );
-
-  //   expect(conversation.assignedUser).toBe(null);
-  // });
-
-  // test('Change conversation status', async () => {
-  //   process.env.DEFAULT_EMAIL_SERIVCE = ' ';
-  //   process.env.COMPANY_EMAIL_FROM = ' ';
-
-  //   const args = {
-  //     _ids: [leadConversation._id, messengerConversation._id],
-  //     status: 'closed',
-  //   };
-
-  //   const mutation = `
-  //     mutation conversationsChangeStatus($_ids: [String]!, $status: String!) {
-  //       conversationsChangeStatus(_ids: $_ids, status: $status) {
-  //         status
-  //       }
-  //     }
-  //   `;
-
-  //   const [conversation] = await graphqlRequest(mutation, 'conversationsChangeStatus', args);
-
-  //   expect(conversation.status).toEqual(args.status);
-
-  //   // if status is not closed
-  //   args.status = CONVERSATION_STATUSES.OPEN;
-
-  //   const [openConversation] = await graphqlRequest(mutation, 'conversationsChangeStatus', args);
-
-  //   expect(openConversation.status).toEqual(args.status);
-  // });
-
-  // test('Mark conversation as read', async () => {
-  //   process.env.DEFAULT_EMAIL_SERIVCE = ' ';
-  //   process.env.COMPANY_EMAIL_FROM = ' ';
-
-  //   const mutation = `
-  //     mutation conversationMarkAsRead($_id: String) {
-  //       conversationMarkAsRead(_id: $_id) {
-  //         _id
-  //         readUserIds
-  //       }
-  //     }
-  //   `;
-
-  //   const conversation = await graphqlRequest(
-  //     mutation,
-  //     'conversationMarkAsRead',
-  //     { _id: leadConversation._id },
-  //     { user },
-  //   );
-
-  //   expect(conversation.readUserIds).toContain(user._id);
-  // });
-
-  // test('conversationCreateVideoChatRoom', async () => {
-  //   process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
-
-  //   const mutation = `
-  //     mutation conversationCreateVideoChatRoom {
-  //       conversationCreateVideoChatRoom {
-  //         id
-  //         name
-  //         api_created
-  //         privacy
-  //         url
-  //         created_at
-  //         config
-  //       }
-  //     }
-  //   `;
-
-  //   const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
-
-  //   const room = await graphqlRequest(mutation, 'conversationCreateVideoChatRoom', {}, { dataSources });
-
-  //   console.log('room: ', room);
-
-  //   expect(room).toBeDefined();
-  // });
-
-  test('conversationDeleteVideoChatRoom', async () => {
-    process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
+    const args = {
+      conversationIds: [leadConversation._id],
+      assignedUserId: user._id,
+    };
 
     const mutation = `
-      mutation conversationDeleteVideoChatRoom($name: String) {
-        conversationDeleteVideoChatRoom(name: $name)
+      mutation conversationsAssign(
+        $conversationIds: [String]!
+        $assignedUserId: String
+      ) {
+        conversationsAssign(
+          conversationIds: $conversationIds
+          assignedUserId: $assignedUserId
+        ) {
+          assignedUser {
+            _id
+          }
+        }
+      }
+    `;
+
+    const [conversation] = await graphqlRequest(mutation, 'conversationsAssign', args);
+
+    expect(conversation.assignedUser._id).toEqual(args.assignedUserId);
+  });
+
+  test('Unassign conversation', async () => {
+    const mutation = `
+      mutation conversationsUnassign($_ids: [String]!) {
+        conversationsUnassign(_ids: $_ids) {
+          assignedUser {
+            _id
+          }
+        }
+      }
+    `;
+
+    const [conversation] = await graphqlRequest(
+      mutation,
+      'conversationsUnassign',
+      {
+        _ids: [leadConversation._id],
+      },
+      { user },
+    );
+
+    expect(conversation.assignedUser).toBe(null);
+  });
+
+  test('Change conversation status', async () => {
+    process.env.DEFAULT_EMAIL_SERIVCE = ' ';
+    process.env.COMPANY_EMAIL_FROM = ' ';
+
+    const args = {
+      _ids: [leadConversation._id, messengerConversation._id],
+      status: 'closed',
+    };
+
+    const mutation = `
+      mutation conversationsChangeStatus($_ids: [String]!, $status: String!) {
+        conversationsChangeStatus(_ids: $_ids, status: $status) {
+          status
+        }
+      }
+    `;
+
+    const [conversation] = await graphqlRequest(mutation, 'conversationsChangeStatus', args);
+
+    expect(conversation.status).toEqual(args.status);
+
+    // if status is not closed
+    args.status = CONVERSATION_STATUSES.OPEN;
+
+    const [openConversation] = await graphqlRequest(mutation, 'conversationsChangeStatus', args);
+
+    expect(openConversation.status).toEqual(args.status);
+  });
+
+  test('Mark conversation as read', async () => {
+    process.env.DEFAULT_EMAIL_SERIVCE = ' ';
+    process.env.COMPANY_EMAIL_FROM = ' ';
+
+    const mutation = `
+      mutation conversationMarkAsRead($_id: String) {
+        conversationMarkAsRead(_id: $_id) {
+          _id
+          readUserIds
+        }
+      }
+    `;
+
+    const conversation = await graphqlRequest(
+      mutation,
+      'conversationMarkAsRead',
+      { _id: leadConversation._id },
+      { user },
+    );
+
+    expect(conversation.readUserIds).toContain(user._id);
+  });
+
+  test('conversationCreateVideoChatRoom', async () => {
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
+
+    const mutation = `
+      mutation conversationCreateVideoChatRoom {
+        conversationCreateVideoChatRoom {
+          id
+          name
+          api_created
+          privacy
+          url
+          created_at
+          config
+        }
       }
     `;
 
     const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
 
-    const deletedRoom = await graphqlRequest(
-      mutation,
-      'conversationDeleteVideoChatRoom',
-      { name: 'mzbntHBycE5SLMSx5eES' },
-      { dataSources },
-    );
+    try {
+      await graphqlRequest(mutation, 'conversationCreateVideoChatRoom', {}, { dataSources });
+    } catch (e) {
+      expect(e[0].message).toBe('Integrations api is not running');
+    }
+  });
 
-    console.log('room: ', deletedRoom);
+  test('conversationDeleteVideoChatRoom', async () => {
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
 
-    expect(deletedRoom).toBeDefined();
+    const mutation = `
+      mutation conversationDeleteVideoChatRoom($name: String!) {
+        conversationDeleteVideoChatRoom(name: $name) {
+          deleted
+        }
+      }
+    `;
+
+    const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
+
+    try {
+      await graphqlRequest(
+        mutation,
+        'conversationDeleteVideoChatRoom',
+        { name: 'IrOt8E2kuHcCrbc0XhLG' },
+        { dataSources },
+      );
+    } catch (e) {
+      expect(e[0].message).toBe('Integrations api is not running');
+    }
   });
 });

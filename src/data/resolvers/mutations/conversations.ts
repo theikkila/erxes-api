@@ -400,18 +400,29 @@ const conversationMutations = {
   },
 
   async conversationCreateVideoChatRoom(_root, { conversationId }, { dataSources }: IContext) {
-    const createdRoom = await dataSources.IntegrationsAPI.createVideoChatRoom();
+    try {
+      const createdRoom = await dataSources.IntegrationsAPI.createVideoChatRoom();
 
-    console.log('conversationId: ', conversationId);
-    console.log('createdRoom: ', createdRoom);
+      await Conversations.updateOne({ _id: conversationId }, { $set: { activeVideoRoom: createdRoom.name } });
 
-    await Conversations.updateOne({ _id: conversationId }, { $set: { activeVideoRoom: createdRoom.name } });
+      return createdRoom;
+    } catch (e) {
+      debugExternalApi(e.message);
 
-    return createdRoom;
+      throw new Error(e.message);
+    }
   },
 
   async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
-    return dataSources.IntegrationsAPI.deleteVideoChatRoom(name);
+    await Conversations.updateOne({ activeVideoRoom: name }, { $unset: { activeVideoRoom: 1 } });
+
+    try {
+      return dataSources.IntegrationsAPI.deleteVideoChatRoom(name);
+    } catch (e) {
+      debugExternalApi(e.message);
+
+      throw new Error('Room not found');
+    }
   },
 };
 
