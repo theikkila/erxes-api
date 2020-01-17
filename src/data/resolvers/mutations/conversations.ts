@@ -399,13 +399,9 @@ const conversationMutations = {
     return Conversations.markAsReadConversation(_id, user._id);
   },
 
-  async conversationCreateVideoChatRoom(_root, { conversationId }, { dataSources }: IContext) {
+  async conversationCreateDailyVideoCall(_root, { conversationId }, { dataSources }: IContext) {
     try {
-      const createdRoom = await dataSources.IntegrationsAPI.createVideoChatRoom();
-
-      await Conversations.updateOne({ _id: conversationId }, { $set: { activeVideoRoom: createdRoom.name } });
-
-      return createdRoom;
+      return dataSources.IntegrationsAPI.createDailyVideoChatRoom(conversationId);
     } catch (e) {
       debugExternalApi(e.message);
 
@@ -414,10 +410,8 @@ const conversationMutations = {
   },
 
   async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
-    await Conversations.updateOne({ activeVideoRoom: name }, { $unset: { activeVideoRoom: 1 } });
-
     try {
-      return dataSources.IntegrationsAPI.deleteVideoChatRoom(name);
+      return dataSources.IntegrationsAPI.deleteDailyVideoChatRoom(name);
     } catch (e) {
       debugExternalApi(e.message);
 

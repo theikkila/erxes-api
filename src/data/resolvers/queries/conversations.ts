@@ -1,6 +1,7 @@
 import { Brands, Channels, ConversationMessages, Conversations, Tags } from '../../../db/models';
 import { CONVERSATION_STATUSES, KIND_CHOICES } from '../../../db/models/definitions/constants';
 import { IMessageDocument } from '../../../db/models/definitions/conversationMessages';
+import { debugExternalApi } from '../../../debuggers';
 import { checkPermission, moduleRequireLogin } from '../../permissions/wrappers';
 import { IContext } from '../../types';
 import QueryBuilder, { IListArgs } from './conversationQueryBuilder';
@@ -298,20 +299,14 @@ const conversationQueries = {
   },
 
   async conversationsGetVideoRoom(_root, { _id }, { dataSources }: IContext) {
-    const conversation = await Conversations.getConversation(_id);
-
-    if (!conversation.activeVideoRoom) {
-      return '';
-    }
-
     try {
-      const response = await dataSources.IntegrationsAPI.fetchApi(`/daily/rooms/${conversation.activeVideoRoom}`);
+      const response = await dataSources.IntegrationsAPI.fetchApi(`/daily/rooms/${_id}`);
 
       return response.name;
     } catch (e) {
-      await Conversations.updateOne({ _id }, { $unset: { activeVideoRoom: 1 } });
+      debugExternalApi(e.message);
 
-      return '';
+      throw new Error(e.message);
     }
   },
 };
