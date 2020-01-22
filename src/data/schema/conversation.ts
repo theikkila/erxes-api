@@ -152,6 +152,7 @@ export const types = `
     name: String!
     created: Boolean
     token: String
+    ownerToken: String!
   }
 
   type VideoChatRoomDelete {

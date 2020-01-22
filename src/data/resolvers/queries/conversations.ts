@@ -306,6 +306,7 @@ const conversationQueries = {
         name: response.name,
         created: response.created || false,
         token: response.token || '',
+        ownerToken: response.ownerToken,
       };
     } catch (e) {
       debugExternalApi(e.message);
