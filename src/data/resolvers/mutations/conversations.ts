@@ -399,16 +399,6 @@ const conversationMutations = {
     return Conversations.markAsReadConversation(_id, user._id);
   },
 
-  async conversationCreateDailyVideoCall(_root, { conversationId }, { dataSources }: IContext) {
-    try {
-      return dataSources.IntegrationsAPI.createDailyVideoChatRoom(conversationId);
-    } catch (e) {
-      debugExternalApi(e.message);
-
-      throw new Error(e.message);
-    }
-  },
-
   async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
     try {
       return dataSources.IntegrationsAPI.deleteDailyVideoChatRoom(name);

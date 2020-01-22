@@ -300,9 +300,13 @@ const conversationQueries = {
 
   async conversationsGetVideoRoom(_root, { _id }, { dataSources }: IContext) {
     try {
-      const response = await dataSources.IntegrationsAPI.fetchApi(`/daily/rooms/${_id}`);
+      const response = await dataSources.IntegrationsAPI.fetchApi('/daily/room', { conversationId: _id });
 
-      return response.name;
+      return {
+        name: response.name,
+        created: response.created || false,
+        token: response.token || '',
+      };
     } catch (e) {
       debugExternalApi(e.message);
 

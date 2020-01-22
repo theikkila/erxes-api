@@ -148,8 +148,10 @@ export const types = `
     unreadCount: Int
   }
 
-  type CallRecord {
-    roomName: String!
+  type VideoChatRoom {
+    name: String!
+    created: Boolean
+    token: String
   }
 
   type VideoChatRoomDelete {
@@ -215,7 +217,7 @@ export const queries = `
   conversationDetail(_id: String!): Conversation
   conversationsGetLast(${filterParams}): Conversation
   conversationsTotalUnreadCount: Int
-  conversationsGetVideoRoom(_id: String!): String
+  conversationsGetVideoRoom(_id: String!): VideoChatRoom
 `;
 
 export const mutations = `
@@ -231,6 +233,5 @@ export const mutations = `
   conversationsUnassign(_ids: [String]!): [Conversation]
   conversationsChangeStatus(_ids: [String]!, status: String!): [Conversation]
   conversationMarkAsRead(_id: String): Conversation
-  conversationCreateDailyVideoCall(conversationId: String): CallRecord
   conversationDeleteVideoChatRoom(name: String!): VideoChatRoomDelete
 `;
