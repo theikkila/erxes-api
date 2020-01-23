@@ -72,6 +72,7 @@ export const types = `
     user: User
     customer: Customer
     mailData: MailData
+    contentType: String
   }
 
   type FacebookPost {
@@ -228,6 +229,7 @@ export const mutations = `
     mentionedUserIds: [String],
     internal: Boolean,
     attachments: [AttachmentInput],
+    contentType: String
   ): ConversationMessage
   conversationsReplyFacebookComment(conversationId: String, commentId: String, content: String): FacebookComment
   conversationsAssign(conversationIds: [String]!, assignedUserId: String): [Conversation]

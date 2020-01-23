@@ -353,6 +353,12 @@ export const BOARD_TYPES = {
   ALL: ['deal', 'ticket', 'task', 'growthHack'],
 };
 
+export const MESSAGE_TYPES = {
+  VIDEO: 'video',
+  TEXT: 'text',
+  ALL: ['video', 'text'],
+};
+
 // module constants
 export const NOTIFICATION_TYPES = {
   CHANNEL_MEMBERS_CHANGE: 'channelMembersChange',
