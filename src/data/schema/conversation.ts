@@ -150,6 +150,7 @@ export const types = `
   }
 
   type VideoChatRoom {
+    url: String!
     name: String!
     created: Boolean
     token: String

@@ -402,11 +402,11 @@ const conversationMutations = {
 
   async conversationDeleteVideoChatRoom(_root, { name }, { dataSources }: IContext) {
     try {
-      return dataSources.IntegrationsAPI.deleteDailyVideoChatRoom(name);
+      return await dataSources.IntegrationsAPI.deleteDailyVideoChatRoom(name);
     } catch (e) {
       debugExternalApi(e.message);
 
-      throw new Error('Room not found');
+      throw new Error(e.message);
     }
   },
 };

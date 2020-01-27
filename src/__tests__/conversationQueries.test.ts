@@ -994,7 +994,7 @@ describe('conversationQueries', () => {
   });
 
   test('Facebook comments', async () => {
-    process.env.INTEGRATIONS_API_DOMAIN = 'http://localhost:3400';
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
 
     const qry = `
       query converstationFacebookComments($postId: String!) {
@@ -1011,5 +1011,42 @@ describe('conversationQueries', () => {
     } catch (e) {
       expect(e[0].message).toBe('Integrations api is not running');
     }
+  });
+
+  test('Get video room', async () => {
+    expect.assertions(4);
+    process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
+
+    const qry = `
+      query conversationsGetVideoRoom($_id: String!) {
+        conversationsGetVideoRoom(_id: $_id) {
+          url
+          name
+          ownerToken
+        }
+      }
+    `;
+
+    const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
+
+    try {
+      await graphqlRequest(qry, 'conversationsGetVideoRoom', { _id: 'fakeId' }, { dataSources });
+    } catch (e) {
+      expect(e[0].message).toBe('Integrations api is not running');
+    }
+
+    const spy = jest.spyOn(dataSources.IntegrationsAPI, 'fetchApi');
+
+    const fakeResponse = { url: 'http://fake.erxes.io', name: 'name', ownerToken: 'ownerToken' };
+
+    spy.mockImplementation(() => Promise.resolve(fakeResponse));
+
+    const response = await graphqlRequest(qry, 'conversationsGetVideoRoom', { _id: 'fakeId' }, { dataSources });
+
+    expect(response.url).toBe(fakeResponse.url);
+    expect(response.name).toBe(fakeResponse.name);
+    expect(response.ownerToken).toBe(fakeResponse.ownerToken);
+
+    spy.mockRestore();
   });
 });

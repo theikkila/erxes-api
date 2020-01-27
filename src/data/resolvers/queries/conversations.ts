@@ -303,6 +303,7 @@ const conversationQueries = {
       const response = await dataSources.IntegrationsAPI.fetchApi('/daily/room', { conversationId: _id });
 
       return {
+        url: response.url,
         name: response.name,
         created: response.created || false,
         token: response.token || '',

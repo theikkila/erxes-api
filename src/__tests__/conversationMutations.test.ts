@@ -364,33 +364,9 @@ describe('Conversation message mutations', () => {
     expect(conversation.readUserIds).toContain(user._id);
   });
 
-  test('conversationCreateVideoChatRoom', async () => {
-    process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
+  test('Delete video chat room', async () => {
+    expect.assertions(1);
 
-    const mutation = `
-      mutation conversationCreateVideoChatRoom {
-        conversationCreateVideoChatRoom {
-          id
-          name
-          api_created
-          privacy
-          url
-          created_at
-          config
-        }
-      }
-    `;
-
-    const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
-
-    try {
-      await graphqlRequest(mutation, 'conversationCreateVideoChatRoom', {}, { dataSources });
-    } catch (e) {
-      expect(e[0].message).toBe('Integrations api is not running');
-    }
-  });
-
-  test('conversationDeleteVideoChatRoom', async () => {
     process.env.INTEGRATIONS_API_DOMAIN = 'http://fake.erxes.io';
 
     const mutation = `
@@ -404,12 +380,7 @@ describe('Conversation message mutations', () => {
     const dataSources = { IntegrationsAPI: new IntegrationsAPI() };
 
     try {
-      await graphqlRequest(
-        mutation,
-        'conversationDeleteVideoChatRoom',
-        { name: 'IrOt8E2kuHcCrbc0XhLG' },
-        { dataSources },
-      );
+      await graphqlRequest(mutation, 'conversationDeleteVideoChatRoom', { name: 'fakeId' }, { dataSources });
     } catch (e) {
       expect(e[0].message).toBe('Integrations api is not running');
     }
